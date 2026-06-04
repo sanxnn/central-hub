@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sanxnn | Central Hub</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon_io/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon_io/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon_io/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon_io/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico" />
+
+    <meta name="theme-color" content="#030712" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="favicon_io/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="favicon_io/android-chrome-512x512.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pixelbg: "#fffbf0", // Warna krem hangat khas UI anime/retro
+              pixelpink: "#ff66b2", // Pink cerah ala tema anime/pop
+              pixelblue: "#2cb9ff", // Biru langit megaman
+              pixelyellow: "#ffde43", // Kuning koin Mario
+            },
+            boxShadow: {
+              "pixel-sm": "4px 4px 0px 0px #000000",
+              "pixel-md": "6px 6px 0px 0px #000000",
+              "pixel-lg": "10px 10px 0px 0px #000000",
+              "pixel-active": "2px 2px 0px 0px #000000",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Menggunakan font pixel untuk elemen tertentu */
+      .font-pixel {
+        font-family: "Press Start 2P", monospace;
+      }
+
+      /* Background Grid Pattern ala Game Retro */
+      .bg-retro-grid {
+        background-size: 32px 32px;
+        background-image:
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      }
+
+      /* Animasi Mengambang ala Item Game (Floating Effect) */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      .animate-pixel-float {
+        animation: float 3s steps(4) infinite;
+      }
+
+      /* Animasi Flicker Teks Loading */
+      @keyframes textFlicker {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .animate-flicker {
+        animation: textFlicker 0.5s infinite steps(2);
+      }
+
+      @keyframes pixelSpin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Scanline CRT Monitor Effect */
+      .crt-overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+          rgba(18, 16, 16, 0) 50%,
+          rgba(0, 0, 0, 0.08) 50%
+        );
+        background-size: 100% 4px;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body
+    x-data="pixelHubEngine()"
+    x-init="startLoading()"
+    class="bg-pixelbg text-black antialiased min-h-screen flex flex-col justify-between relative bg-retro-grid selection:bg-black selection:text-white"
+  >
+    <div class="crt-overlay"></div>
+
+    <template x-if="loading">
+      <div
+        class="crt-overlay fixed inset-0 bg-[#fffbf0] z-[9999] flex flex-col items-center justify-center p-6 select-none"
+      >
+        <div
+          class="w-full max-w-xs space-y-6 text-center flex flex-col items-center"
+        >
+          <div
+            class="w-8 h-8 border-4 border-t-black border-r-black border-b-zinc-300 border-l-zinc-300 animate-[pixelSpin_0.6s_infinite_steps(4)] mb-2"
+          ></div>
+
+          <p
+            class="font-pixel text-[10px] text-black tracking-widest animate-flicker"
+          >
+            NOW LOADING...
+          </p>
+
+          <div
+            class="w-full bg-white border-[4px] border-black h-6 p-1 flex gap-1 overflow-hidden shadow-pixel-sm"
+          >
+            <template x-for="i in Math.floor(percent / 10)">
+              <div class="w-[10%] h-full bg-black"></div>
+            </template>
+          </div>
+
+          <p
+            class="font-pixel text-[8px] text-zinc-500"
+            x-text="percent + '%'"
+          ></p>
+        </div>
+      </div>
+    </template>
+
+    <main class="max-w-md w-full mx-auto px-4 py-12 relative z-10 my-auto">
+      <div
+        class="border-[6px] border-black bg-white p-5 shadow-pixel-lg mb-10 relative animate-pixel-float"
+      >
+        <div
+          class="absolute -top-5 left-4 bg-pixelpink text-white border-4 border-black px-2 py-1 text-[8px] font-pixel uppercase tracking-wider"
+        >
+          LVL_02
+        </div>
+
+        <h1
+          class="text-xs font-pixel leading-relaxed uppercase tracking-wide text-black mb-2"
+        >
+          Muhammad Hasan Al Bukhori
+        </h1>
+        <div class="flex items-center justify-between">
+          <p class="text-[9px] font-pixel text-slate-500">
+            ALIAS: <span class="text-white bg-black px-1.5 py-0.5">sanxnn</span>
+          </p>
+          <p class="font-pixel text-[9px] text-black">
+            🪙 EXP:
+            <span x-text="coins" class="text-pixelpink font-bold">0</span>
+          </p>
+        </div>
+
+        <div class="border-t-[4px] border-dashed border-black my-4"></div>
+
+        <p
+          class="text-xs font-bold text-slate-700 leading-relaxed font-sans normal-case"
+        >
+          Fullstack Developer & DevOps Engineer. Mengelola infrastruktur server
+          otomatis, cluster virtualisasi, dan arsitektur aplikasi backend.
+        </p>
+      </div>
+
+      <div class="space-y-5 font-pixel text-[9px] tracking-wider uppercase">
+        <a
+          href="https://sanxnn.is-a.dev"
+          target="_blank"
+          @click="clickLink(2)"
+          class="group flex items-center justify-between bg-pixelyellow border-[5px] border-black p-4 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+        >
+          <span class="flex items-center gap-3">
+            <span>🌟</span> ENTER MAIN PORTFOLIO
+          </span>
+          <span class="text-xs font-sans font-bold">→</span>
+        </a>
+
+        <div class="grid grid-cols-2 gap-4">
+          <a
+            href="https://github.com/sanxnn"
+            target="_blank"
+            @click="clickLink(1)"
+            class="group flex flex-col justify-between bg-white border-[5px] border-black p-4 h-24 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+          >
+            <span>👾 GH</span>
+            <div>
+              <span class="block text-black font-bold">GitHub</span>
+            </div>
+          </a>
+
+          <a
+            href="https://linkedin.com/in/sanxnn"
+            target="_blank"
+            @click="clickLink(1)"
+            class="group flex flex-col justify-between bg-white border-[5px] border-black p-4 h-24 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+          >
+            <span>👔 LN</span>
+            <div>
+              <span class="block text-black font-bold">LinkedIn</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <a
+            href="https://instagram.com/prince.haechxn"
+            target="_blank"
+            @click="clickLink(1)"
+            class="group flex items-center gap-2 bg-pixelpink text-white border-[5px] border-black p-3 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+          >
+            <span>📸</span>
+            <span class="font-bold">IG</span>
+          </a>
+
+          <a
+            href="mailto:hasanalbukhori@outlook.com"
+            @click="clickLink(1)"
+            class="group flex items-center gap-2 bg-pixelblue text-white border-[5px] border-black p-3 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+          >
+            <span>✉</span>
+            <span class="font-bold">MAIL</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER RETRO TEXT ONLY -->
+    <footer
+      class="w-full text-center py-6 text-[7px] font-pixel border-t-[5px] border-black bg-white z-10 relative tracking-widest uppercase"
+    >
+      MADE WITH GEMINI.AI BY SANXNN
+    </footer>
+
+    <script>
+      function pixelHubEngine() {
+        return {
+          loading: true,
+          percent: 0,
+          coins: 0,
+
+          // Bleep synth murni browser untuk sound effect game retro 8-bit
+          playAudioTone(freq, duration) {
+            try {
+              const AudioContext =
+                window.AudioContext || window.webkitAudioContext;
+              if (!AudioContext) return;
+              const ctx = new AudioContext();
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+
+              osc.type = "square"; // Karakter suara patah-patah NES
+              osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+              gain.gain.setValueAtTime(0.04, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(
+                0.00001,
+                ctx.currentTime + duration,
+              );
+
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+
+              osc.start();
+              osc.stop(ctx.currentTime + duration);
+            } catch (e) {}
+          },
+
+          // Jalankan loading screen piksel presisi 3 detik (3000ms)
+          startLoading() {
+            const stepTime = 3000 / 100; // 30ms per 1%
+            const timer = setInterval(() => {
+              this.percent++;
+              if (this.percent % 25 === 0) {
+                this.playAudioTone(250, 0.03); // Suara klik loading progres
+              }
+              if (this.percent >= 100) {
+                clearInterval(timer);
+                this.loading = false;
+                // Selesai loading koin chime effect
+                setTimeout(() => this.playAudioTone(600, 0.05), 0);
+                setTimeout(() => this.playAudioTone(800, 0.1), 50);
+              }
+            }, stepTime);
+          },
+
+          // Trigger counter koin + audio bleep sewaktu link di-klik
+          clickLink(reward) {
+            this.coins += reward;
+            this.playAudioTone(1000, 0.05); // Suara koin dapet untung
+          },
+        };
+      }
+    </script>
+  </body>
+</html>
