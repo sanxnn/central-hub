@@ -223,6 +223,18 @@
 
         <div class="grid grid-cols-2 gap-4">
           <a
+            href="https://kodingan.web.id"
+            target="_blank"
+            @click="clickLink(2)"
+            class="group flex flex-col justify-between bg-pixelblue text-white border-[5px] border-black p-4 h-24 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+          >
+            <span>🚀 WORK</span>
+            <div>
+              <span class="block font-bold">SHOWCASE</span>
+            </div>
+          </a>
+
+          <a
             href="https://github.com/sanxnn"
             target="_blank"
             @click="clickLink(1)"
@@ -233,7 +245,9 @@
               <span class="block text-black font-bold">GitHub</span>
             </div>
           </a>
+        </div>
 
+        <div class="grid grid-cols-2 gap-4">
           <a
             href="https://linkedin.com/in/sanxnn"
             target="_blank"
@@ -245,28 +259,30 @@
               <span class="block text-black font-bold">LinkedIn</span>
             </div>
           </a>
-        </div>
 
-        <div class="grid grid-cols-2 gap-4">
           <a
             href="https://instagram.com/prince.haechxn"
             target="_blank"
             @click="clickLink(1)"
-            class="group flex items-center gap-2 bg-pixelpink text-white border-[5px] border-black p-3 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+            class="group flex flex-col justify-between bg-pixelpink text-white border-[5px] border-black p-4 h-24 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
           >
-            <span>📸</span>
-            <span class="font-bold">IG</span>
-          </a>
-
-          <a
-            href="mailto:hasanalbukhori@outlook.com"
-            @click="clickLink(1)"
-            class="group flex items-center gap-2 bg-pixelblue text-white border-[5px] border-black p-3 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
-          >
-            <span>✉</span>
-            <span class="font-bold">MAIL</span>
+            <span>📸 IG</span>
+            <div>
+              <span class="block font-bold">INSTAGRAM</span>
+            </div>
           </a>
         </div>
+
+        <a
+          href="mailto:hasanalbukhori@outlook.com"
+          @click="clickLink(1)"
+          class="group flex items-center justify-between bg-zinc-800 text-white border-[5px] border-black p-4 shadow-pixel-sm hover:shadow-pixel-active hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-75"
+        >
+          <span class="flex items-center gap-3">
+            <span>✉</span> SEND AN EMAIL
+          </span>
+          <span class="text-xs font-sans font-bold">→</span>
+        </a>
       </div>
     </main>
 
